@@ -1,0 +1,10 @@
+app:
+  env:  "development"
+  port: 8080
+  debug: false
+mysql:
+  connection:
+    database_name: "swith_mel"
+    host: "103.70.5.8"
+    password: "61aKaCpqvr@"
+    username: "root"
