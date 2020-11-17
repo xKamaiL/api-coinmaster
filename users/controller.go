@@ -1,5 +1,13 @@
 package users
 
-func UserLogin()  {
+func UserLogin() {
 	//repository := NewUserRepository()
+}
+
+func UserRegister() {
+
+}
+
+func UserProfile() {
+
 }

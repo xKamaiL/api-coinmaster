@@ -5,8 +5,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	"github.com/xkamail/api-ts3-gin/common"
-	"github.com/xkamail/api-ts3-gin/users"
+	"github.com/xkamail/api-coinmaster/users"
 	"net/http"
 	"strings"
 )
@@ -59,22 +58,12 @@ func setupRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	r.Use(gin.Logger())
 	v1 := r.Group("/api")
-
-	// banner route
-	common.Route(v1)
-
 	authorized := r.Group("/api")
-	// guest route
-	//users.AuthenticateRoute(v1.Group("/auth"))
-	//users.PasswordResetRoute(v1.Group("/auth"))
-
 	authorized.Use(users.AuthMiddleware())
-	//
-	//users.ProfileRoute(authorized.Group("/user"))
-	//users.UserRoute(authorized.Group("/auth"))
-	//servers.MyServersListRoute(authorized.Group("/server"))
-	//
-	//packages.PackageRoutes(authorized.Group("/plan"))
+	// setup router app.
+	users.GuestRouter(v1.Group("/user"))
+	users.AuthenticateRouter(authorized.Group("/user"))
+
 	return r
 }
 
@@ -106,7 +95,6 @@ func main() {
 	defer db.Close()
 
 	r := setupRouter()
-
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{
 			"message": "Page not found",
