@@ -1,7 +1,8 @@
 package users
 
 func UserLogin() {
-	//repository := NewUserRepository()
+	repository := NewUserRepository()
+	
 }
 
 func UserRegister() {
