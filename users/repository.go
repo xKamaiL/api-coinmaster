@@ -6,6 +6,9 @@ type Repository interface {
 	FindAll() ([]User, error)
 	FindById(id uint) (User, error)
 	First(condition interface{}) (User, error)
+	FindByUsername(username string) (User, error)
+	FindByEmail(email string) (User, error)
+	Save(user User) (User, error)
 }
 
 func NewUserRepository() Repository {
@@ -25,5 +28,31 @@ func (u UserRepository) FindById(id uint) (User, error) {
 }
 
 func (u UserRepository) First(condition interface{}) (User, error) {
-	panic("implement me")
+	var user User
+	db := common.GetDB()
+	err := db.Where(condition).First(&user).Error
+	return user, err
 }
+
+func (u UserRepository) FindByUsername(username string) (User, error) {
+	var user User
+	db := common.GetDB()
+	err := db.Where(User{Username: username}).First(&user).Error
+	return user, err
+}
+
+func (u UserRepository) FindByEmail(email string) (User, error) {
+	var user User
+	db := common.GetDB()
+	err := db.Where(User{Email: email}).First(&user).Error
+	return user, err
+}
+
+func (u UserRepository) Save(user User) (User, error) {
+	err := common.GetDB().Save(&user).Error
+	return user, err
+}
+//
+//func (u UserRepository) Delete(user User)  {
+//
+//}

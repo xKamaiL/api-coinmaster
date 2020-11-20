@@ -17,7 +17,7 @@ func HashPassword(password string) (string, error) {
 	return string(bytes), err
 }
 
-func CheckPasswordHash(password, hash string) bool {
+func CheckPasswordHash(password string, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
 }
@@ -36,7 +36,7 @@ func RandString(n int) string {
 const JWTSecretConfig = "EGaXs0pqbNQbfPnR3I58sgE6J0XCDzDN09q9kGfg9wtamErPp9Mb6JWIXEooR8MO"
 
 // A Util function to generate jwt_token which can be used in the request header
-func GenerateJWTToken(id uint) string {
+func GenerateJWTToken(id int) string {
 	jwtToken := jwt.New(jwt.GetSigningMethod("HS256"))
 	jwtToken.Claims = jwt.MapClaims{
 		"sub": id,
@@ -101,4 +101,10 @@ func AppUrl() string {
 func Bind(c *gin.Context, obj interface{}) error {
 	b := binding.Default(c.Request.Method, c.ContentType())
 	return c.ShouldBindWith(obj, b)
+}
+
+func Message(message string) gin.H {
+	return gin.H{
+		"message": message,
+	}
 }

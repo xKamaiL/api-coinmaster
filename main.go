@@ -5,6 +5,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"github.com/xkamail/api-coinmaster/common"
 	"github.com/xkamail/api-coinmaster/users"
 	"net/http"
 	"strings"
@@ -23,15 +24,15 @@ func jsonAppErrorReporterT(errType gin.ErrorType) gin.HandlerFunc {
 		if len(detectedErrors) > 0 {
 			fmt.Println("some error")
 			err := detectedErrors[0].Err
-			var parsedError *appError
+			var parsedError gin.H
 			switch err.(type) {
 			default:
-				parsedError = &appError{
-					Code:    http.StatusInternalServerError,
-					Message: "Internal Server Error",
+				parsedError = gin.H{
+					"Code":    http.StatusInternalServerError,
+					"Message": "Internal Server Error",
 				}
 			}
-			c.AbortWithStatusJSON(parsedError.Code, parsedError)
+			c.AbortWithStatusJSON(http.StatusInternalServerError, parsedError)
 			return
 		}
 
