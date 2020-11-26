@@ -8,7 +8,7 @@ type Repository interface {
 	First(condition interface{}) (User, error)
 	FindByUsername(username string) (User, error)
 	FindByEmail(email string) (User, error)
-	Save(user User) (User, error)
+	Save(user *User) error
 }
 
 func NewUserRepository() Repository {
@@ -48,10 +48,11 @@ func (u UserRepository) FindByEmail(email string) (User, error) {
 	return user, err
 }
 
-func (u UserRepository) Save(user User) (User, error) {
+func (u UserRepository) Save(user *User) error {
 	err := common.GetDB().Save(&user).Error
-	return user, err
+	return err
 }
+
 //
 //func (u UserRepository) Delete(user User)  {
 //

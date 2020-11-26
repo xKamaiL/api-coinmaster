@@ -7,6 +7,7 @@ type User struct {
 	Username        string    `gorm:"column:username",json:"username"`
 	Role            string    `gorm:"column:role",json:"role"`
 	SpinPoint       int       `gorm:"column:spin_point",json:"spin_point"`
+	InvitePoint     int       `gorm:"column:invite_point",json:"invite_point"`
 	Email           string    `gorm:"column:email",json:"email"`
 	MobileNo        string    `gorm:"column:mobile_no",json:"mobile_no"`
 	EmailVerifiedAt time.Time `gorm:"column:email_verified_at",json:"email_verified_at"`
